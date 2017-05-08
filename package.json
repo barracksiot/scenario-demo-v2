@@ -1,0 +1,24 @@
+{
+  "name": "scenario-demo-v2",
+  "version": "0.0.1",
+  "build": 0,
+  "description": "Barracks SDK V1 node module",
+  "main": "src/index.js",
+  "contributors": [
+    {
+      "email": "gregoire@barracks.io",
+      "name": "Grégoire Weber"
+    }
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "barracks-sdk": "2.0.2"
+  },
+  "engines": {
+    "node": ">=0.10 <7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/barracksiot/scenario-demo-v2"
+  }
+}

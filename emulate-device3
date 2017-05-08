@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+if [ $# -ne 1 ]; then
+  echo "emulate-device1 expect one argument: <API_KEY>"
+  exit 1
+fi
+
+API_KEY=$1
+
+./src/resolvePackages.js --apiKey ${API_KEY} --unitId device1 --packages '[]' --customClientData '{ "type":"alpha", "extra": { "app2":true } }'
+
+read  -n 1 -p "Press enter to install app1 v3, app2 v2, and contact Barracks without app2enabled in the customClientData..."
+
+./src/resolvePackages.js --apiKey ${API_KEY} --unitId device1 --packages '[{ "reference":"io.barracks.demo.app1", "version":"v3" }, { "reference":"io.barracks.demo.app2", "version":"v2" }]' --customClientData '{ "type":"alpha" }'

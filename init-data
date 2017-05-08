@@ -1,0 +1,64 @@
+#!/bin/bash
+set -e
+
+OLD_BARRACKS_ENABLE_V2=$BARRACKS_ENABLE_V2
+export BARRACKS_ENABLE_V2="1"
+
+echo "-----------------------------------------"
+echo "-- Installing / upgrading barracks CLI..."
+echo "-----------------------------------------"
+npm install -g barracks-cli
+npm install
+
+echo "-----------------------------------------"
+echo "-- Connectiong to account ${LOGIN}"
+echo "-----------------------------------------"
+barracks logout
+barracks login
+
+echo "-----------------------------------------"
+echo "-- Creating 'All' filter..."
+echo "-----------------------------------------"
+barracks filter create --name all --query '{ "regex": { "unitId":".*" } }'
+echo "-----------------------------------------"
+echo "-- Creating 'Beta' filter..."
+echo "-----------------------------------------"
+barracks filter create --name beta --query '{ "eq": { "customClientData.type":"beta" } }'
+echo "-----------------------------------------"
+echo "-- Creating 'Alpha' filter..."
+echo "-----------------------------------------"
+barracks filter create --name alpha --query '{ "eq": { "customClientData.type":"alpha" } }'
+echo "-----------------------------------------"
+echo "-- Creating 'App 2 enabled' filter..."
+echo "-----------------------------------------"
+barracks filter create --name app2Enabled --query '{ "eq": { "customClientData.extra.app2":true } }'
+
+echo "-----------------------------------------"
+echo "-- Creating App 1, with 3 versions..."
+echo "-----------------------------------------"
+barracks package create --reference io.barracks.demo.app1 --name "App 1"
+barracks package version create --versionId v1 --name "App 1 - Version 1" --packageReference io.barracks.demo.app1 --file packages/app1-v1.txt --metadata '{ "description": "This is app1 v1" }'
+barracks package version create --versionId v2 --name "App 1 - Version 2" --packageReference io.barracks.demo.app1 --file packages/app1-v2.txt --metadata '{ "description": "This is app1 v2" }'
+barracks package version create --versionId v3 --name "App 1 - Version 3" --packageReference io.barracks.demo.app1 --file packages/app1-v3.txt --metadata '{ "description": "This is app1 v3" }'
+
+echo "-----------------------------------------"
+echo "-- Creating App 2, with 2 versions..."
+echo "-----------------------------------------"
+barracks package create --reference io.barracks.demo.app2 --name "App 2"
+barracks package version create --versionId v1 --name "App 2 - Version 1" --packageReference io.barracks.demo.app2 --file packages/app2-v1.txt --metadata '{ "description": "This is app2 v1" }'
+barracks package version create --versionId v2 --name "App 2 - Version 2" --packageReference io.barracks.demo.app2 --file packages/app2-v2.txt --metadata '{ "description": "This is app2 v2" }'
+
+echo "-----------------------------------------"
+echo "-- Uploading deployment plan for App 1..."
+echo "-----------------------------------------"
+cat packages/app1-plan.json | barracks package plan publish
+
+echo "-----------------------------------------"
+echo "-- Uploading deployment plan for App 2..."
+echo "-----------------------------------------"
+cat packages/app2-plan.json | barracks package plan publish
+
+barracks logout
+
+export BARRACKS_ENABLE_V2=$OLD_BARRACKS_ENABLE_V2
+
