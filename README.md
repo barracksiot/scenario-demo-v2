@@ -13,7 +13,14 @@ $ ./init-data
 
 That script will isntall the barracks cli, setup the script that will be used to emulate the devices, and prepare data on your account.
 
-Two packages will be created, with some versions, as follow:
+It will create four filters :
+
+* ```all``` that retrieve all devices
+* ```beta``` that retrieve all devices that send the ```{ "type": "beta" }``` object in the custom client data
+* ```alpha``` that retrieve all devices that send the ```{ "type": "alpha" }``` object in the custom client data
+* ```app2Enabled``` that retrieve all devices that send the t```{ "extra" : { "app2": true }``` object in the custom client data
+
+Also, two packages will be created, with some versions, as follow:
 
 * App1 (available to all devices)
   * v1 (available to all devices)
