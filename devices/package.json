@@ -1,0 +1,19 @@
+{
+  "name": "device-emulator",
+  "version": "0.0.1",
+  "description": "Script that emulate an autonomous device",
+  "main": "index.js",
+  "scripts": {
+    "start": "./index.js"
+  },
+  "contributors": [
+    {
+      "email": "gregoire@barracks.io",
+      "name": "Grégoire Weber"
+    }
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "barracks-sdk": "2.0.2"
+  }
+}
