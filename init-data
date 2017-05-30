@@ -23,42 +23,20 @@ echo "-- Creating 'All' filter..."
 echo "-----------------------------------------"
 barracks filter create --name all --query '{ "regex": { "unitId":".*" } }'
 echo "-----------------------------------------"
-echo "-- Creating 'Beta' filter..."
+echo "-- Creating 'Screen' filter..."
 echo "-----------------------------------------"
-barracks filter create --name beta --query '{ "eq": { "customClientData.type":"beta" } }'
-echo "-----------------------------------------"
-echo "-- Creating 'Alpha' filter..."
-echo "-----------------------------------------"
-barracks filter create --name alpha --query '{ "eq": { "customClientData.type":"alpha" } }'
-echo "-----------------------------------------"
-echo "-- Creating 'App 2 enabled' filter..."
-echo "-----------------------------------------"
-barracks filter create --name app2Enabled --query '{ "eq": { "customClientData.extra.app2":true } }'
+barracks filter create --name screen --query '{ "eq": { "customClientData.modules.screen":true } }'
 
 echo "-----------------------------------------"
-echo "-- Creating App 1, with 3 versions..."
+echo "-- Creating firmware for screen"
 echo "-----------------------------------------"
-barracks package create --reference io.barracks.demo.app1 --name "App 1"
-barracks package version create --versionId v1 --name "App 1 - Version 1" --packageReference io.barracks.demo.app1 --file packages/app1-v1.txt --metadata '{ "description": "This is app1 v1" }'
-barracks package version create --versionId v2 --name "App 1 - Version 2" --packageReference io.barracks.demo.app1 --file packages/app1-v2.txt --metadata '{ "description": "This is app1 v2" }'
-barracks package version create --versionId v3 --name "App 1 - Version 3" --packageReference io.barracks.demo.app1 --file packages/app1-v3.txt --metadata '{ "description": "This is app1 v3" }'
-
-echo "-----------------------------------------"
-echo "-- Creating App 2, with 2 versions..."
-echo "-----------------------------------------"
-barracks package create --reference io.barracks.demo.app2 --name "App 2"
-barracks package version create --versionId v1 --name "App 2 - Version 1" --packageReference io.barracks.demo.app2 --file packages/app2-v1.txt --metadata '{ "description": "This is app2 v1" }'
-barracks package version create --versionId v2 --name "App 2 - Version 2" --packageReference io.barracks.demo.app2 --file packages/app2-v2.txt --metadata '{ "description": "This is app2 v2" }'
+barracks package create --reference io.barracks.firmware.screen --name "Screen Firmware"
+barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.screen --file packages/screen_firmware.js 
 
 echo "-----------------------------------------"
 echo "-- Uploading deployment plan for App 1..."
 echo "-----------------------------------------"
-cat packages/app1-plan.json | barracks package plan publish
-
-echo "-----------------------------------------"
-echo "-- Uploading deployment plan for App 2..."
-echo "-----------------------------------------"
-cat packages/app2-plan.json | barracks package plan publish
+cat packages/screen_firmware_plan.json | barracks package plan publish
 
 barracks logout
 

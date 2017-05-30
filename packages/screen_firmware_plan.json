@@ -1,0 +1,11 @@
+{
+  "package": "io.barracks.firmware.screen",
+  "rules": [
+    {
+      "version": "v1",
+      "allow": {
+        "filters": [ "screen" ]
+      }
+    }
+  ]
+}
