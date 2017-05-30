@@ -11,9 +11,11 @@ npm install -g barracks-cli
 npm install
 
 echo "-----------------------------------------"
-echo "-- Connectiong to account ${LOGIN}"
+echo "-- Connecting to account ${LOGIN}"
 echo "-----------------------------------------"
-barracks logout
+if [ -e "~/.barracks/barracks.json" ]; then
+  rm -rf "~/.barracks/barracks.json"
+fi
 barracks login
 
 echo "-----------------------------------------"
