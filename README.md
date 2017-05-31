@@ -22,18 +22,22 @@ It will create four filters :
 
 Also, some packages will be created as follow:
 
-* io.barracks.firmware.screen
+* io.barracks.firmware.screen (require the device to have a screen)
   * v1, a package that display text on the device's screen
-* io.barracks.firmware.speed-sensor
+* io.barracks.firmware.speed-sensor (require the device to have a speed sensor)
   * v1, a package that send speed statistics to barracks
-* io.barracks.firmware.trafic-counter
+* io.barracks.firmware.trafic-counter (require the device to have a counter)
   * v1, a package that send trafic statistics to barracks
+* io.barracks.firmware.jam-detector (require the device to have both a counter and a speed sensor)
+  * v1, a package that send trafic status to barracks
+
 
 You can check the file describing the deployment plan to see how we built those permissions :
 
 * ```packages/screen_firmware_plan.json```
 * ```packages/speed_sensor_firmware_plan.json```
 * ```packages/trafic_counter_firmware_plan.json```
+* ```packages/jam_detector_firmware_plan.json```
 
 ## Emulate a device
 
