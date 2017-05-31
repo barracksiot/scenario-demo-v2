@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -ne 1 ]; then
-  echo "emulate-device1 expect one argument: <API_KEY>"
+  echo "emulate-device2 expect one argument: <API_KEY>"
   exit 1
 fi
 
@@ -18,9 +18,9 @@ echo "--------------------------------"
 echo ""
 
 echo "Cleaning existing packages for device 1..."
-rm -rf device-1-packages/
-mkdir device-1-packages
+rm -rf device-2-packages/
+mkdir device-2-packages
 
-echo "starting device 1..."
+echo "starting device 2..."
 
-npm run start device-1 $1 "./device-1_customClientData.json"
+npm run start device-2 $1 "./device-2_customClientData.json"
