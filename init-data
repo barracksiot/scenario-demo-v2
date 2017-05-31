@@ -25,13 +25,13 @@ barracks filter create --name all --query '{ "regex": { "unitId":".*" } }'
 echo "-----------------------------------------"
 echo "-- Creating 'Screen' filter..."
 echo "-----------------------------------------"
-barracks filter create --name screen --query '{ "eq": { "customClientData.modules.screen":true } }'
+barracks filter create --name screen --query '{ "regex": { "customClientData.hardware.screen":".+" } }'
 
 echo "-----------------------------------------"
 echo "-- Creating firmware for screen"
 echo "-----------------------------------------"
 barracks package create --reference io.barracks.firmware.screen --name "Screen Firmware"
-barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.screen --file packages/screen_firmware.js 
+barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.screen --file packages/screen_firmware.js --metadata '{ "text": "This is the default text to display on the screen" }'
 
 echo "-----------------------------------------"
 echo "-- Uploading deployment plan for App 1..."
