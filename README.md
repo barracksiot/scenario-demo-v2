@@ -17,18 +17,23 @@ It will create four filters :
 
 * ```all``` that retrieve all devices
 * ```screen``` that retrieve all devices that send the ```{ "hardware": { "screen": "screenRef" } }``` object in the custom client data, that indicate that the device has a screen
-* ```speed-sensor``` that retrieve all devices that send the ```{ "hardware": { "speed-sensor": "sensorRef" } }``` object in the custom client data, that indicate that the device has a screen
+* ```speed-sensor``` that retrieve all devices that send the ```{ "hardware": { "speed-sensor": "sensorRef" } }``` object in the custom client data, that indicate that the device has a speed sensor
+* ```trafic-counter``` that retrieve all devices that send the ```{ "hardware": { "trafic-counter": "counterRef" } }``` object in the custom client data, that indicate that the device has a trafic counter
 
 Also, some packages will be created as follow:
 
 * io.barracks.firmware.screen
   * v1, a package that display text on the device's screen
 * io.barracks.firmware.speed-sensor
+  * v1, a package that send speed statistics to barracks
+* io.barracks.firmware.trafic-counter
+  * v1, a package that send trafic statistics to barracks
 
 You can check the file describing the deployment plan to see how we built those permissions :
 
 * ```packages/screen_firmware_plan.json```
-* ```packages/speed-sensor_firmware_plan.json```
+* ```packages/speed_sensor_firmware_plan.json```
+* ```packages/trafic_counter_firmware_plan.json```
 
 ## Emulate a device
 
