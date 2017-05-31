@@ -16,6 +16,11 @@ echo "--------------------------------"
 echo "-- Barracsk SDK is up to date --"
 echo "--------------------------------"
 echo ""
+
+echo "Cleaning existing packages for device 1..."
+rm -rf device-1-packages/
+mkdir device-1-packages
+
 echo "starting device 1..."
 
 npm run start device-1 $1 "./device1_customClientData.json"

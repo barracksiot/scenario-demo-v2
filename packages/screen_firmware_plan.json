@@ -1,5 +1,8 @@
 {
   "package": "io.barracks.firmware.screen",
+  "allow": {
+    "filters": [ "screen" ]
+  },
   "rules": [
     {
       "version": "v1",
