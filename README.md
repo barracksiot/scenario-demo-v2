@@ -16,16 +16,19 @@ That script will install the barracks cli, setup the script that will be used to
 It will create four filters :
 
 * ```all``` that retrieve all devices
-* ```screen``` that retrieve all devices that send the ```{ "hardware": { "screen": "screenRef" } }``` object in the custom client data, taht indicate that the device has a screen
+* ```screen``` that retrieve all devices that send the ```{ "hardware": { "screen": "screenRef" } }``` object in the custom client data, that indicate that the device has a screen
+* ```speed-sensor``` that retrieve all devices that send the ```{ "hardware": { "speed-sensor": "sensorRef" } }``` object in the custom client data, that indicate that the device has a screen
 
 Also, some packages will be created as follow:
 
 * io.barracks.firmware.screen
   * v1, a package that display text on the device's screen
+* io.barracks.firmware.speed-sensor
 
 You can check the file describing the deployment plan to see how we built those permissions :
 
 * ```packages/screen_firmware_plan.json```
+* ```packages/speed-sensor_firmware_plan.json```
 
 ## Emulate a device
 
@@ -39,3 +42,20 @@ Then, move to the ```devices/``` folder, and start a device to emulate
 ### Note about the devices
 You can change the ```customClientData``` sent to Barracks by the device anytime during the emulation by updating the file ```devices/device{DEVICE_NUMBER}_customClientData.json```.
 That way you can change the hardware composition of the device on the fly, and see taht it will install or uninstall the packages after contacing Barracks according to the hardware on it.
+
+Supported hardware values are :
+
+* ```screen```
+* ```speed-sensor```
+* ```trafic-counter```
+
+Or any combinaison of the three
+example:
+```
+{
+  "hardware": {
+    "screen": "LCM1602C",
+    "speed-sensor": "ETSE8765"
+  }
+}
+```

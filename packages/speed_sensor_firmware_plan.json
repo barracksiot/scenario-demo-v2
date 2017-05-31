@@ -1,0 +1,14 @@
+{
+  "package": "io.barracks.firmware.speed-sensor",
+  "allow": {
+    "filters": [ "speed-sensor" ]
+  },
+  "rules": [
+    {
+      "version": "v1",
+      "allow": {
+        "filters": [ "speed-sensor" ]
+      }
+    }
+  ]
+}

@@ -46,6 +46,7 @@ function uninstallPackage(package) {
         if (err) {
           reject(err);
         }
+        delete state[package.reference];
         installedPackages = installedPackages.filter(pckg => pckg.reference !== package.reference);
         resolve();
       });
@@ -93,6 +94,7 @@ function installPackage(package) {
       packageState = {};
       packageState[package.reference] = package.customUpdateData || {};
       state = Object.assign(state, packageState);
+      console.log(state);
       resolve();
     }).catch(err => {
       reject(err);

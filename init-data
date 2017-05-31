@@ -26,6 +26,10 @@ echo "-----------------------------------------"
 echo "-- Creating 'Screen' filter..."
 echo "-----------------------------------------"
 barracks filter create --name screen --query '{ "regex": { "customClientData.hardware.screen":".+" } }'
+echo "-----------------------------------------"
+echo "-- Creating 'Speed Sensor' filter..."
+echo "-----------------------------------------"
+barracks filter create --name speed-sensor --query '{ "regex": { "customClientData.hardware.speed-sensor":".+" } }'
 
 echo "-----------------------------------------"
 echo "-- Creating firmware for screen"
@@ -33,11 +37,21 @@ echo "-----------------------------------------"
 barracks package create --reference io.barracks.firmware.screen --name "Screen Firmware"
 barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.screen --file packages/screen_firmware.js --metadata '{ "text": "This is the default text to display on the screen" }'
 
-echo "-----------------------------------------"
-echo "-- Uploading deployment plan for App 1..."
-echo "-----------------------------------------"
+echo "---------------------------------------------------------------"
+echo "-- Uploading deployment plan for io.barracks.firmware.screen..."
+echo "---------------------------------------------------------------"
 cat packages/screen_firmware_plan.json | barracks package plan publish
 
+echo "-------------------------------------"
+echo "-- Creating firmware for speed sensor"
+echo "-------------------------------------"
+barracks package create --reference io.barracks.firmware.speed-sensor --name "Screen Firmware"
+barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.speed-sensor --file packages/speed_sensor_firmware.js
+
+echo "---------------------------------------------------------------------"
+echo "-- Uploading deployment plan for io.barracks.firmware.speed-sensor..."
+echo "---------------------------------------------------------------------"
+cat packages/speed_sensor_firmware_plan.json | barracks package plan publish
 barracks logout
 
 export BARRACKS_ENABLE_V2=$OLD_BARRACKS_ENABLE_V2
