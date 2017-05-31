@@ -2,6 +2,9 @@
 const fs = require('fs');
 const Barracks = require('barracks-sdk');
 
+// TODO Replace by the npm package when published
+const BarracksMessenger = require('./BarracksMessengerMock');
+
 const CHECK_INTERVAL = 3000;
 
 const unitId = process.argv[2];
@@ -10,6 +13,7 @@ const customClientDataPath = process.argv[4];
 const packagesFolder = `${unitId}-packages/`;
 
 const barracks = new Barracks({ apiKey });
+const messenger = new BarracksMessenger();
 
 let installedPackages = [];
 let state = {};
@@ -93,8 +97,7 @@ function installPackage(package) {
       installedPackages.push(package);
       packageState = {};
       packageState[package.reference] = package.customUpdateData || {};
-      state = Object.assign(state, packageState);
-      console.log(state);
+      Object.assign(state, packageState);
       resolve();
     }).catch(err => {
       reject(err);
@@ -140,5 +143,11 @@ function checkforUpdate() {
   });
 }
 
+function messageReceived(message) {
+  console.log('Message received, updating device state..');
+  Object.assign(state, message);
+}
+
 checkforUpdate();
 setInterval(checkforUpdate, CHECK_INTERVAL);
+messenger.onMessage(messageReceived);

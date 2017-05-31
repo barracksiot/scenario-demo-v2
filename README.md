@@ -39,6 +39,20 @@ You can check the file describing the deployment plan to see how we built those 
 * ```packages/trafic_counter_firmware_plan.json```
 * ```packages/jam_detector_firmware_plan.json```
 
+## Messaging
+All emulated device will listent for messages.
+Device having the screen hardware will be able to change the displayed text on message receving.
+To do so, send a message with the following payload :
+```
+{
+  "io.barracks.firmware.screen": {
+    "text": "<Text to be displayed by the device>" 
+  }
+}
+```
+Other messages will only update the custom data sent by the device to Barracks.
+
+
 ## Emulate a device
 
 Get your api key from the [account page](https://app.barracks.io/account) of Barracks web application.
