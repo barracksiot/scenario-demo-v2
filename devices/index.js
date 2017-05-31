@@ -20,10 +20,17 @@ function getCustomClientData(filePath) {
       if (err) {
         reject(err);
       } else {
+
+        // TODO remove that part when BO-1455 will be online
+        const fixedState = {};
+        Object.keys(state).forEach(key => {
+          fixedState[key.split('.').join('_')] = state[key];
+        });
+
         resolve(Object.assign(
           {},
           JSON.parse(data),
-          { data: state }
+          { state: fixedState }
         ));
       }
     });
@@ -83,6 +90,9 @@ function installPackage(package) {
     console.log(`Installing package ${package.reference}`);
     package.download(packagesFolder + package.filename).then(filename => {
       installedPackages.push(package);
+      packageState = {};
+      packageState[package.reference] = package.customUpdateData || {};
+      state = Object.assign(state, packageState);
       resolve();
     }).catch(err => {
       reject(err);
@@ -92,7 +102,6 @@ function installPackage(package) {
 
 function handleBarracksResponse(response) {
   return new Promise((resolve, reject) => {
-    console.log(response);
     Promise.all(response.unavailable.map(package => uninstallPackage(package))).then(() => {
       return response.changed.map(package => updatePackage(package));
     }).then(() => {
@@ -107,17 +116,21 @@ function handleBarracksResponse(response) {
 }
 
 function runAllInstalledPackages() {
-  // TODO find and run all installed packages
-  return Promise.resolve();
+  return Promise.all(installedPackages.map(pckg => {
+    // Remove require cache to be certain that the last version of the file is loaded
+    delete require.cache[`${__dirname}/${packagesFolder}${pckg.filename}`];
+    const script = require(`./${packagesFolder}${pckg.filename}`);
+    return script(state[pckg.reference]);
+  }));
 }
 
 function checkforUpdate() {
-  getCustomClientData(customClientDataPath).then(data => {
+  runAllInstalledPackages().then(() => {
+    return getCustomClientData(customClientDataPath);
+  }).then(data => {
     return barracks.getDevicePackages(unitId, installedPackages, data);
   }).then(response => {
     return handleBarracksResponse(response);
-  }).then(() => {
-    return runAllInstalledPackages();
   }).then(() => {
     console.log('a fini');
   }).catch(err => {
