@@ -12,7 +12,9 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "barracks-sdk": "2.0.2"
+    "barracks-messenger-sdk-betatest": "0.1.2",
+    "barracks-sdk": "2.0.2",
+    "mqtt": "2.5.2"
   },
   "engines": {
     "node": ">=0.10 <7.0"

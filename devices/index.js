@@ -2,8 +2,7 @@
 const fs = require('fs');
 const Barracks = require('barracks-sdk');
 
-// TODO Replace by the npm package when published
-const BarracksMessenger = require('./BarracksMessengerMock');
+const BarracksMessenger = require('barracks-messenger-sdk-betatest');
 
 const CHECK_INTERVAL = 3000;
 
@@ -13,7 +12,10 @@ const customClientDataPath = process.argv[4];
 const packagesFolder = `${unitId}-packages/`;
 
 const barracks = new Barracks({ apiKey });
-const messenger = new BarracksMessenger();
+const messenger = new BarracksMessenger.BarracksMessenger({
+  unitId: unitId,
+  apiKey: apiKey
+});
 
 let installedPackages = [];
 let state = {};
@@ -150,4 +152,31 @@ function messageReceived(message) {
 
 checkforUpdate();
 setInterval(checkforUpdate, CHECK_INTERVAL);
-messenger.onMessage(messageReceived);
+
+function listenMessages() {
+  messenger.connect({
+    onConnect: function() {
+      console.log('Connected to mqtt://app.barracks.io');
+    },
+    onError: function(err) {
+      console.log('Error occurred : ' + err);
+    },
+    onClose: function() {
+      console.log('Connection closed');
+    },
+    onReconnect: function() {
+      console.log('Attempting to reconnect...');
+    }
+  });
+
+  messenger.subscribe(apiKey + '.' + unitId, function(messageReceived) {
+    console.log('Received: ' + messageReceived.payload);
+    console.log('retain : ' + messageReceived.retained + ' // topic : ' + messageReceived.topic);
+    console.log('length: ' + messageReceived.length);
+    console.log('qos ' + messageReceived.qos);
+  }, { qos: 1 });
+}
+
+listenMessages();
+
+// messenger.onMessage(messageReceived);
