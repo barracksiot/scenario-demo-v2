@@ -13,7 +13,7 @@ echo "-----------------------------------------------------------"
 npm install
 
 echo "--------------------------------"
-echo "-- Barracsk SDK is up to date --"
+echo "-- Barracks SDK is up to date --"
 echo "--------------------------------"
 echo ""
 

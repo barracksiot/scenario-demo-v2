@@ -3,18 +3,22 @@ const fs = require('fs');
 const Barracks = require('barracks-sdk');
 
 const BarracksMessenger = require('barracks-messenger-sdk-betatest');
+// const BarracksMessenger = require('./BarracksMessengerMock');
 
-const CHECK_INTERVAL = 3000;
+
+const CHECK_INTERVAL = 20000;
 
 const unitId = process.argv[2];
 const apiKey = process.argv[3];
 const customClientDataPath = process.argv[4];
 const packagesFolder = `${unitId}-packages/`;
 
-const barracks = new Barracks({ apiKey });
+const barracks = new Barracks({ apiKey, allowSelfSigned:true });
 const messenger = new BarracksMessenger.BarracksMessenger({
   unitId: unitId,
-  apiKey: apiKey
+  apiKey: apiKey,
+  baseUrl: 'https://192.168.99.100',
+  mqttEndpoint: 'mqtt://192.168.99.100'
 });
 
 let installedPackages = [];
@@ -147,16 +151,21 @@ function checkforUpdate() {
 
 function messageReceived(message) {
   console.log('Message received, updating device state..');
-  Object.assign(state, message);
+  let content = JSON.parse(JSON.parse(message.payload));
+  state = Object.assign({}, state, content);
 }
+
+exports.messageReceived = messageReceived;
 
 checkforUpdate();
 setInterval(checkforUpdate, CHECK_INTERVAL);
 
+const that = this;
 function listenMessages() {
+
   messenger.connect({
     onConnect: function() {
-      console.log('Connected to mqtt://app.barracks.io');
+      console.log('Connected to ' + messenger.options.mqttEndpoint);
     },
     onError: function(err) {
       console.log('Error occurred : ' + err);
@@ -169,14 +178,10 @@ function listenMessages() {
     }
   });
 
-  messenger.subscribe(apiKey + '.' + unitId, function(messageReceived) {
+  messenger.subscribe(messenger.options.apiKey + '.' + messenger.options.unitId, function(messageReceived) {
+    that.messageReceived(messageReceived);
     console.log('Received: ' + messageReceived.payload);
-    console.log('retain : ' + messageReceived.retained + ' // topic : ' + messageReceived.topic);
-    console.log('length: ' + messageReceived.length);
-    console.log('qos ' + messageReceived.qos);
   }, { qos: 1 });
 }
 
 listenMessages();
-
-// messenger.onMessage(messageReceived);
