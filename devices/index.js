@@ -3,8 +3,6 @@ const fs = require('fs');
 const Barracks = require('barracks-sdk');
 
 const BarracksMessenger = require('barracks-messenger-sdk-betatest');
-// const BarracksMessenger = require('./BarracksMessengerMock');
-
 
 const CHECK_INTERVAL = 20000;
 
