@@ -11,12 +11,12 @@ const apiKey = process.argv[3];
 const customClientDataPath = process.argv[4];
 const packagesFolder = `${unitId}-packages/`;
 
-const barracks = new Barracks({ apiKey });
+const barracks = new Barracks({ apiKey, allowSelfSigned:true });
 const messenger = new BarracksMessenger.BarracksMessenger({
   unitId: unitId,
   apiKey: apiKey,
-  baseUrl: 'https://app.barracks.io',
-  mqttEndpoint: 'mqtt://app.barracks.io'
+  baseUrl: 'https://192.168.99.100',
+  mqttEndpoint: 'mqtt://192.168.99.100'
 });
 
 let installedPackages = [];
