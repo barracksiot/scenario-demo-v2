@@ -26,17 +26,17 @@ echo "-- Creating 'All' filter..."
 echo "-----------------------------------------"
 barracks filter create --name all --query '{ "regex": { "unitId":".*" } }'
 echo "-----------------------------------------"
-echo "-- Creating 'Screen' filter..."
+echo "-- Creating 'Windows' filter..."
 echo "-----------------------------------------"
 barracks filter create --name windows --query '{ "eq": { "customClientData.os": "windows" } }'
 echo "-----------------------------------------"
-echo "-- Creating 'Speed Sensor' filter..."
+echo "-- Creating 'Linux' filter..."
 echo "-----------------------------------------"
 barracks filter create --name linux --query '{ "eq": { "customClientData.os": "linux" } }'
-# echo "-----------------------------------------"
-# echo "-- Creating 'Trafic counter' filter..."
-# echo "-----------------------------------------"
-# barracks filter create --name windows_paying --query '{ "and": [ { "eq": { "customClientData.os": "windows" } },{ "eq": { "customClientData.state": "paying" } } ] }'
+echo "-----------------------------------------"
+echo "-- Creating 'Send logs' filter..."
+echo "-----------------------------------------"
+barracks filter create --name send_logs --query '{ "and": [ { "eq": { "customClientData.os": "linux" } },{ "eq": { "customClientData.send.logs": "true" } } ] }'
 
 echo "-----------------------------------------"
 echo "-- Creating firmware for linux"
@@ -60,16 +60,16 @@ echo "-- Uploading deployment plan for io.barracks.firmware.windows..."
 echo "---------------------------------------------------------------------"
 cat packages/windows_firmware_plan.json | barracks package plan publish
 
-# echo "---------------------------------------"
-# echo "-- Creating firmware for trafic counter"
-# echo "---------------------------------------"
-# barracks package create --reference io.barracks.firmware.trafic-counter --name "Trafic Counter Firmware"
-# barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.trafic-counter --file packages/trafic_counter_firmware.js
+echo "---------------------------------------"
+echo "-- Creating firmware for trafic counter"
+echo "---------------------------------------"
+barracks package create --reference io.barracks.firmware.trafic-counter --name "Send Logs Firmware"
+barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.logs --file packages/send_logs_firmware.js
 
-# echo "-----------------------------------------------------------------------"
-# echo "-- Uploading deployment plan for io.barracks.firmware.trafic-counter..."
-# echo "-----------------------------------------------------------------------"
-# cat packages/trafic_counter_firmware_plan.json | barracks package plan publish
+echo "-----------------------------------------------------------------------"
+echo "-- Uploading deployment plan for io.barracks.firmware.trafic-counter..."
+echo "-----------------------------------------------------------------------"
+cat packages/send_logs_firmware_plan.json | barracks package plan publish
 
 barracks logout
 

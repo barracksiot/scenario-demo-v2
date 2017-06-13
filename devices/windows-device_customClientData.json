@@ -1,3 +1,6 @@
 {
-   "os": "windows"
+   "os": "windows",
+   "send":{
+   	    "data":"false"
+   }
 }

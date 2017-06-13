@@ -7,8 +7,6 @@ ENV         BARRACKS_BASE_URL="https://app.barracks.io"
 ENV         BARRACKS_MQTT_ENDPOINT="mqtt://mqtt.barracks.io"
 ENV         BARRACKS_ENABLE_EXPERIMENTAL=1
 
-RUN         apt-get update && apt-get install -y vim
-
 RUN         npm install -g barracks-cli
 COPY        package.json    /work/package.json
 RUN         npm install

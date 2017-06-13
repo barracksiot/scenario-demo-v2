@@ -1,0 +1,14 @@
+{
+  "package": "io.barracks.firmware.logs",
+  "allow": {
+    "filters": [ "send_logs" ]
+  },
+  "rules": [
+    {
+      "version": "v1",
+      "allow": {
+        "filters": [ "send_logs" ]
+      }
+    }
+  ]
+}
