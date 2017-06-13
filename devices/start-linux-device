@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -ne 1 ]; then
-  echo "emulate-display-device expect one argument: <API_KEY>"
+  echo "emulate-linux-device expect one argument: <API_KEY>"
   exit 1
 fi
 
@@ -18,9 +18,9 @@ echo "--------------------------------"
 echo ""
 
 echo "Cleaning existing packages for sensor device..."
-rm -rf display-device-packages/
-mkdir display-device-packages
+rm -rf linux-device-packages/
+mkdir linux-device-packages
 
-echo "starting sensor device..."
+echo "starting linux device..."
 
-npm run start display-device $1 "./display-device_customClientData.json"
+npm run start linux-device $1 "./linux-device_customClientData.json"

@@ -1,0 +1,14 @@
+{
+  "package": "io.barracks.firmware.linux",
+  "allow": {
+    "filters": [ "linux" ]
+  },
+  "rules": [
+    {
+      "version": "v1",
+      "allow": {
+        "filters": [ "linux" ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "package": "io.barracks.firmware.windows",
+  "allow": {
+    "filters": [ "windows" ]
+  },
+  "rules": [
+    {
+      "version": "v1",
+      "allow": {
+        "filters": [ "windows" ]
+      }
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -ne 1 ]; then
-  echo "emulate-sensor-device expect one argument: <API_KEY>"
+  echo "emulate-windows-device expect one argument: <API_KEY>"
   exit 1
 fi
 
@@ -18,9 +18,9 @@ echo "--------------------------------"
 echo ""
 
 echo "Cleaning existing packages for sensor device..."
-rm -rf sensor-device-packages/
-mkdir sensor-device-packages
+rm -rf windows-device-packages/
+mkdir windows-device-packages
 
-echo "starting sensor device..."
+echo "starting windows device..."
 
-npm run start sensor-device $1 "./sensor-device_customClientData.json"
+npm run start windows-device $1 "./windows-device_customClientData.json"
