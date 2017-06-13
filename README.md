@@ -59,12 +59,12 @@ Get your api key from the [account page](https://app.barracks.io/account) of Bar
 
 Then, move to the ```devices/``` folder, and start a device to emulate
 
-* ```$ ./start-device-1 <YOUR_API_KEY>```
-  * By default, is's a device that only has a screen on it.
+* ```$ ./start-windows-device <YOUR_API_KEY>```
+  * By default, is's a device that has a windows firmware on it.
 
 ### Note about the devices
 You can change the ```customClientData``` sent to Barracks by the device anytime during the emulation by updating the file ```devices/device{DEVICE_NUMBER}_customClientData.json```.
-That way you can change the hardware composition of the device on the fly, and see taht it will install or uninstall the packages after contacing Barracks according to the hardware on it.
+That way you can change the hardware composition of the device on the fly, and see that it will install or uninstall the packages after contacting Barracks according to the hardware on it.
 
 Supported hardware values are :
 

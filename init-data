@@ -8,12 +8,6 @@ export BARRACKS_MQTT_ENDPOINT="mqtt://mqtt.barracks.io"
 export BARRACKS_ENABLE_EXPERIMENTAL=1
 
 echo "-----------------------------------------"
-echo "-- Installing / upgrading barracks CLI..."
-echo "-----------------------------------------"
-npm install -g barracks-cli
-npm install
-
-echo "-----------------------------------------"
 echo "-- Connecting to account ${LOGIN}"
 echo "-----------------------------------------"
 if [ -e "~/.barracks/barracks.json" ]; then
@@ -36,7 +30,7 @@ barracks filter create --name linux --query '{ "eq": { "customClientData.os": "l
 echo "-----------------------------------------"
 echo "-- Creating 'Send logs' filter..."
 echo "-----------------------------------------"
-barracks filter create --name send_logs --query '{ "and": [ { "eq": { "customClientData.os": "linux" } },{ "eq": { "customClientData.send.logs": "true" } } ] }'
+barracks filter create --name send_logs --query '{ "and": [ { "eq": { "customClientData.os": "linux" } },{ "eq": { "customClientData.io\.barracks\.firmware\.logs.send.data": "true" } } ] }'
 
 echo "-----------------------------------------"
 echo "-- Creating firmware for linux"
@@ -61,13 +55,13 @@ echo "---------------------------------------------------------------------"
 cat packages/windows_firmware_plan.json | barracks package plan publish
 
 echo "---------------------------------------"
-echo "-- Creating firmware for trafic counter"
+echo "-- Creating firmware for log sending"
 echo "---------------------------------------"
-barracks package create --reference io.barracks.firmware.trafic-counter --name "Send Logs Firmware"
-barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.logs --file packages/send_logs_firmware.js
+barracks package create --reference io.barracks.firmware.logs --name "Send Logs Firmware"
+barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.logs --file packages/send_logs_firmware.js --metadata '{ "send": {"data":"false"} }'
 
 echo "-----------------------------------------------------------------------"
-echo "-- Uploading deployment plan for io.barracks.firmware.trafic-counter..."
+echo "-- Uploading deployment plan for io.barracks.firmware.logs..."
 echo "-----------------------------------------------------------------------"
 cat packages/send_logs_firmware_plan.json | barracks package plan publish
 

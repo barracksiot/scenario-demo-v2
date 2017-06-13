@@ -1,6 +1,3 @@
 {
-   "os": "linux",
-   "send":{
-   	    "data":"false"
-   }
+   "os": "linux"
 }
