@@ -82,3 +82,20 @@ example:
   }
 }
 ```
+
+### Docker image
+A docker image exists to easily run everything.
+To initialize your data, use the following command:
+```
+docker run -ti demo init-data
+```
+
+To start the sensor device:
+```
+docker run -ti --name sensor-device --rm demo start-sensor-device <API_KEY>
+```
+
+To start the display device:
+```
+docker run -ti --name display-device --rm demo start-display-device <API_KEY>
+```

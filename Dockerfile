@@ -1,19 +1,23 @@
-FROM node:6
+FROM        node:6
 
-MAINTAINER      Remi Riviere <remi@barracks.io>
+WORKDIR     /work
 
-WORKDIR			/work
+ENV         BARRACKS_ENABLE_V2=1
+ENV         BARRACKS_BASE_URL="https://app.barracks.io"
+ENV         BARRACKS_MQTT_ENDPOINT="mqtt://mqtt.barracks.io"
+ENV         BARRACKS_ENABLE_EXPERIMENTAL=1
 
-ENV				BARRACKS_ENABLE_V2					1
-ENV 			BARRACKS_ENABLE_EXPERIMENTAL 		1
+RUN         apt-get update && apt-get install -y vim
 
-COPY            devices								./devices/
-COPY            packages							./packages/
-COPY            node_modules						./node_modules/
-COPY			init-data							init-data
-COPY			package.json						package.json
+RUN         npm install -g barracks-cli
+COPY        package.json    /work/package.json
+RUN         npm install
 
-RUN 			apt-get update && apt-get install vim
-RUN 			npm install
+COPY        devices     /work/devices
+RUN         cd /work/devices && npm install
 
-ENTRYPOINT		["bash"]
+COPY        packages    /work/packages
+COPY        init-data   /work/init-data
+COPY        docker-entrypoint.sh  /entrypoint.sh
+
+ENTRYPOINT  ["/entrypoint.sh"]
