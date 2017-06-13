@@ -15,8 +15,8 @@ const barracks = new Barracks({ apiKey, allowSelfSigned:true });
 const messenger = new BarracksMessenger.BarracksMessenger({
   unitId: unitId,
   apiKey: apiKey,
-  baseUrl: 'https://192.168.99.100',
-  mqttEndpoint: 'mqtt://192.168.99.100'
+  baseUrl: 'https://app.barracks.io',
+  mqttEndpoint: 'mqtt://mqtt.barracks.io'
 });
 
 let installedPackages = [];
@@ -141,7 +141,7 @@ function checkforUpdate() {
   }).then(response => {
     return handleBarracksResponse(response);
   }).then(() => {
-    console.log('a fini');
+    console.log('Device checked for an update');
   }).catch(err => {
     console.error(err);
   });
