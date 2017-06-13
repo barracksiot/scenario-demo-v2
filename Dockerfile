@@ -13,6 +13,7 @@ COPY            node_modules						./node_modules/
 COPY			init-data							init-data
 COPY			package.json						package.json
 
+RUN 			apt-get update && apt-get install vim
 RUN 			npm install
 
 ENTRYPOINT		["bash"]
