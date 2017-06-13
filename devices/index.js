@@ -148,9 +148,13 @@ function checkforUpdate() {
 }
 
 function messageReceived(message) {
-  console.log('Message received, updating device state..');
-  let content = JSON.parse(JSON.parse(message.payload));
-  state = Object.assign({}, state, content);
+  try {
+    console.log('Message received, updating device state..');
+    let content = JSON.parse(JSON.parse(message.payload));
+    state = Object.assign({}, state, content);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 exports.messageReceived = messageReceived;

@@ -9,6 +9,8 @@ elif [ "$1" = 'start-sensor-device' ]; then
 elif [ "$1" = 'start-display-device' ]; then
   cd devices
   exec /work/devices/start-display-device $2
+elif [ "$1" = 'send-message' ]; then
+  exec barracks message send --unitId "$2" --message "$3"
 fi
 
 exec "$@"

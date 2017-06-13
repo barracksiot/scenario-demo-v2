@@ -87,15 +87,20 @@ example:
 A docker image exists to easily run everything.
 To initialize your data, use the following command:
 ```
-docker run -ti demo init-data
+docker run -ti barracksiot/roadways-demo init-data
 ```
 
 To start the sensor device:
 ```
-docker run -ti --name sensor-device --rm demo start-sensor-device <API_KEY>
+docker run -ti --name sensor-device --rm barracksiot/roadways-demo start-sensor-device <API_KEY>
 ```
 
 To start the display device:
 ```
-docker run -ti --name display-device --rm demo start-display-device <API_KEY>
+docker run -ti --name display-device --rm barracksiot/roadways-demo start-display-device <API_KEY>
+```
+
+To send a message to a device:
+```
+docker run -ti --rm barracksiot/roadways-demo send-message <UNIT_ID> '{"io.barracks.firmware.screen":{"text":"Message to print on screen"}}'
 ```
