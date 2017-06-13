@@ -27,9 +27,9 @@ Also, some packages will be created as follow:
 * io.barracks.firmware.speed-sensor (require the device to have a speed sensor)
   * v1, a package that send speed statistics to barracks
 * io.barracks.firmware.trafic-counter (require the device to have a counter)
-  * v1, a package that send trafic statistics to barracks
+  * v1, a package that send traffic statistics to barracks
 * io.barracks.firmware.jam-detector (require the device to have both a counter and a speed sensor)
-  * v1, a package that send trafic status to barracks
+  * v1, a package that send traffic status to barracks
 
 
 You can check the file describing the deployment plan to see how we built those permissions :
@@ -40,8 +40,8 @@ You can check the file describing the deployment plan to see how we built those 
 * ```packages/jam_detector_firmware_plan.json```
 
 ## Messaging
-All emulated device will listent for messages.
-Device having the screen hardware will be able to change the displayed text on message receving.
+All emulated device will listen for messages.
+Device having the screen hardware will be able to change the displayed text at the reception of a message.
 To do so, send a message with the following payload :
 ```
 {
@@ -64,7 +64,7 @@ Then, move to the ```devices/``` folder, and start a device to emulate
 
 ### Note about the devices
 You can change the ```customClientData``` sent to Barracks by the device anytime during the emulation by updating the file ```devices/device{DEVICE_NUMBER}_customClientData.json```.
-That way you can change the hardware composition of the device on the fly, and see taht it will install or uninstall the packages after contacing Barracks according to the hardware on it.
+That way you can change the hardware composition of the device on the fly, and see that it will install or uninstall the packages after contacting Barracks according to the hardware on it.
 
 Supported hardware values are :
 
