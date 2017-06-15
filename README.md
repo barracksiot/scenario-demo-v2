@@ -36,8 +36,10 @@ You can check the file describing the deployment plan to see how we built those 
 
 ## Messaging
 
+### Set a billing status 
+
 All emulated device will listen for messages.
-Devices wil be able to change their billing status between free and paying. 
+Devices will be able to change their billing status between free and paying. 
 To do so, send a message with the following payload : 
 ```
 {
@@ -48,6 +50,11 @@ To do so, send a message with the following payload :
 ```
 Where ```system``` should be replaced by ```windows``` or ```linux``` depending on the os of the device, and ```billing_state``` can be replaced either by ```free``` or ```paying```.
 Other messages will only update the custom data sent by the device to Barracks.
+
+### Allow the devices to send logs to the analytics applications.
+
+Linux devices will be able to send logs to the analytics applications (like Google Analytics or BigQuery). To do so, first you have to set your analytics and bigquery identifiers in your Barracks account.
+The logs that will be sent are retrieved from a file located in the same folder as your start scripts and their custom client data. If you add or remove a line from this file, the data sent to bigQuery will be updated.
 
 
 ## Emulate a device
@@ -69,15 +76,15 @@ docker run -ti barracksiot/roadways-demo init-data
 
 To start the windows device:
 ```
-docker run -ti --name sensor-device --rm barracksiot/roadways-demo start-sensor-device <API_KEY>
+docker run -ti --name windows-device --rm barracksiot/roadways-demo start-windows-device <API_KEY>
 ```
 
-To start the display device:
+To start the linux device:
 ```
-docker run -ti --name display-device --rm barracksiot/roadways-demo start-display-device <API_KEY>
+docker run -ti --name linux-device --rm barracksiot/roadways-demo start-linux-device <API_KEY>
 ```
 
 To send a message to a device:
 ```
-docker run -ti --rm barracksiot/roadways-demo send-message <UNIT_ID> '{"io.barracks.firmware.screen":{"text":"Message to print on screen"}}'
+docker run -ti --rm barracksiot/roadways-demo send-message <UNIT_ID> '{"io.barracks.firmware.windows":{"billing":"free"}}'
 ```
