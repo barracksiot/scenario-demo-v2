@@ -16,10 +16,6 @@ fi
 barracks login
 
 echo "-----------------------------------------"
-echo "-- Creating 'All' filter..."
-echo "-----------------------------------------"
-barracks filter create --name all --query '{ "regex": { "unitId":".*" } }'
-echo "-----------------------------------------"
 echo "-- Creating 'Windows' filter..."
 echo "-----------------------------------------"
 barracks filter create --name windows --query '{ "eq": { "customClientData.os": "windows" } }'
@@ -30,7 +26,7 @@ barracks filter create --name linux --query '{ "eq": { "customClientData.os": "l
 echo "-----------------------------------------"
 echo "-- Creating 'Send logs' filter..."
 echo "-----------------------------------------"
-barracks filter create --name send_logs --query '{ "and": [ { "eq": { "customClientData.os": "linux" } },{ "eq": { "customClientData.io\.barracks\.firmware\.logs.send.data": "true" } } ] }'
+barracks filter create --name send_logs --query '{ "and": [ { "eq": { "customClientData.os": "linux" } },{ "eq": { "customClientData.state.sendLogs": true } } ] }'
 
 echo "-----------------------------------------"
 echo "-- Creating firmware for linux"
@@ -58,7 +54,7 @@ echo "---------------------------------------"
 echo "-- Creating firmware for log sending"
 echo "---------------------------------------"
 barracks package create --reference io.barracks.firmware.logs --name "Send Logs Firmware"
-barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.logs --file packages/send_logs_firmware.js --metadata '{ "send": {"data":"false"} }'
+barracks package version create --versionId v1 --name "Version 1" --packageReference io.barracks.firmware.logs --file packages/send_logs_firmware.js
 
 echo "-----------------------------------------------------------------------"
 echo "-- Uploading deployment plan for io.barracks.firmware.logs..."

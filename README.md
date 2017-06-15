@@ -13,75 +13,52 @@ $ ./init-data
 
 That script will install the barracks cli, setup the script that will be used to emulate the devices, and prepare data on your account.
 
-It will create four filters :
+It will create three filters :
 
-* ```all``` that retrieve all devices
-* ```screen``` that retrieve all devices that send the ```{ "hardware": { "screen": "screenRef" } }``` object in the custom client data, that indicate that the device has a screen
-* ```speed-sensor``` that retrieve all devices that send the ```{ "hardware": { "speed-sensor": "sensorRef" } }``` object in the custom client data, that indicate that the device has a speed sensor
-* ```trafic-counter``` that retrieve all devices that send the ```{ "hardware": { "trafic-counter": "counterRef" } }``` object in the custom client data, that indicate that the device has a trafic counter
+* ```windows``` that retrieve all devices that send ```{ "os": "windows" }``` in the custom client data, that indicate that the device is running with windows
+* ```linux``` that retrieve all devices that send ```{ "os": "linux" }``` in the custom client data, that indicate that the device is running with linux
+* ```send_logs``` that retrieve all devices that send the ```{ "state": { "sendLogs": true } }``` object in the custom client data, that indicate that the device can send logs to the third party applications.
 
 Also, some packages will be created as follow:
 
-* io.barracks.firmware.screen (require the device to have a screen)
-  * v1, a package that display text on the device's screen
-* io.barracks.firmware.speed-sensor (require the device to have a speed sensor)
-  * v1, a package that send speed statistics to barracks
-* io.barracks.firmware.trafic-counter (require the device to have a counter)
-  * v1, a package that send trafic statistics to barracks
-* io.barracks.firmware.jam-detector (require the device to have both a counter and a speed sensor)
-  * v1, a package that send trafic status to barracks
-
+* io.barracks.firmware.windows (require the device to run on windows)
+  * v1, a package that determines for a device on windows if the user has to pay or not
+* io.barracks.firmware.linux (require the device to run on linux)
+  * v1, a package that determines for a device on linux if the user has to pay or not
+* io.barracks.firmware.logs (require the device to be on linux and to be able to send logs)
+  * v1, a package that determines if the device can send logs to third party apps.
 
 You can check the file describing the deployment plan to see how we built those permissions :
 
-* ```packages/screen_firmware_plan.json```
-* ```packages/speed_sensor_firmware_plan.json```
-* ```packages/trafic_counter_firmware_plan.json```
-* ```packages/jam_detector_firmware_plan.json```
+* ```packages/windows_firmware_plan.json```
+* ```packages/linux_firmware_plan.json```
+* ```packages/send_logs_firmware_plan.json```
 
 ## Messaging
-All emulated device will listent for messages.
-Device having the screen hardware will be able to change the displayed text on message receving.
-To do so, send a message with the following payload :
+
+All emulated device will listen for messages.
+Devices wil be able to change their billing status between free and paying. 
+To do so, send a message with the following payload : 
 ```
 {
-  "io.barracks.firmware.screen": {
-    "text": "<Text to be displayed by the device>" 
+  "io.barracks.firmware.system": {
+    "billing": "billing_state" 
   }
 }
 ```
+Where ```system``` should be replaced by ```windows``` or ```linux``` depending on the os of the device, and ```billing_state``` can be replaced either by ```free``` or ```paying```.
 Other messages will only update the custom data sent by the device to Barracks.
 
 
 ## Emulate a device
 
 Get your api key from the [account page](https://app.barracks.io/account) of Barracks web application.
-
-Then, move to the ```devices/``` folder, and start a device to emulate
-
-* ```$ ./start-windows-device <YOUR_API_KEY>```
-  * By default, is's a device that has a windows firmware on it.
+Then you can use it to run the device you want as explained further. 
 
 ### Note about the devices
 You can change the ```customClientData``` sent to Barracks by the device anytime during the emulation by updating the file ```devices/device{DEVICE_NUMBER}_customClientData.json```.
-That way you can change the hardware composition of the device on the fly, and see that it will install or uninstall the packages after contacting Barracks according to the hardware on it.
+That way you can change the composition of the device on the fly, and see that it will install or uninstall the packages after contacting Barracks.
 
-Supported hardware values are :
-
-* ```screen```
-* ```speed-sensor```
-* ```trafic-counter```
-
-Or any combinaison of the three
-example:
-```
-{
-  "hardware": {
-    "screen": "LCM1602C",
-    "speed-sensor": "ETSE8765"
-  }
-}
-```
 
 ### Docker image
 A docker image exists to easily run everything.
@@ -90,7 +67,7 @@ To initialize your data, use the following command:
 docker run -ti barracksiot/roadways-demo init-data
 ```
 
-To start the sensor device:
+To start the windows device:
 ```
 docker run -ti --name sensor-device --rm barracksiot/roadways-demo start-sensor-device <API_KEY>
 ```
