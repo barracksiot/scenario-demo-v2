@@ -71,20 +71,20 @@ That way you can change the composition of the device on the fly, and see that i
 A docker image exists to easily run everything.
 To initialize your data, use the following command:
 ```
-docker run -ti barracksiot/roadways-demo init-data
+docker run -ti --rm barracksiot/parking-demo init-data
 ```
 
 To start the windows device:
 ```
-docker run -ti --name windows-device --rm barracksiot/roadways-demo start-windows-device <API_KEY>
+docker run -ti --name windows-device --rm barracksiot/parking-demo start-windows-device <API_KEY>
 ```
 
 To start the linux device:
 ```
-docker run -ti --name linux-device --rm barracksiot/roadways-demo start-linux-device <API_KEY>
+docker run -ti --name linux-device --rm barracksiot/parking-demo start-linux-device <API_KEY>
 ```
 
 To send a message to a device:
 ```
-docker run -ti --rm barracksiot/roadways-demo send-message <UNIT_ID> '{"io.barracks.firmware.windows":{"billing":"free"}}'
+docker run -ti --rm barracksiot/parking-demo send-message <UNIT_ID> '{"io.barracks.firmware.windows":{"billing":"free"}}'
 ```
