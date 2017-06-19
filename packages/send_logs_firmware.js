@@ -7,15 +7,13 @@ const sendLogs = (state) => {
     state.data = [];
 
     var lineReader = readLine.createInterface({
-    input: fs.createReadStream('coucou.log')
+    input: fs.createReadStream('/proc/loadavg')
     });
 
     lineReader.on('line', function (line) {
     state.data.push(line);
     });
 
-    // var array = fs.readFileSync(path).toString().split('\n');
-    console.log('Data : ' + state.data.toString());
     console.log('---------------------------');
     resolve();
   });
