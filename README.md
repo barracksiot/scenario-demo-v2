@@ -57,7 +57,10 @@ Linux devices will be able to send logs to the analytics applications (like Goog
 The logs that will be sent are retrieved from a file located in the same folder as your start scripts and their custom client data. If you add or remove a line from this file, the data sent to bigQuery will be updated.
 
 To activate the sending of logs to the third parties applications, you have to send a message to a linux device like this: 
-``` docker run -ti --rm barracksiot/parking-demo send-message linux-device { "state": { "sendLogs": true } } ```
+
+``` 
+docker run -ti --rm barracksiot/parking-demo send-message linux-device '{ "sendLogs": true }' 
+```
 
 ## Emulate a device
 
