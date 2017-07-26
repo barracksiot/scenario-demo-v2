@@ -21,6 +21,6 @@ echo "Cleaning existing packages for sensor device..."
 rm -rf display-device-packages/
 mkdir display-device-packages
 
-echo "starting sensor device..."
+echo "starting display device..."
 
 npm run start display-device $1 "./display-device_customClientData.json"
