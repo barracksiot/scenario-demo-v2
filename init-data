@@ -3,6 +3,9 @@ set -e
 
 OLD_BARRACKS_ENABLE_V2=$BARRACKS_ENABLE_V2
 export BARRACKS_ENABLE_V2="1"
+export BARRACKS_BASE_URL="https://app.barracks.io"
+export BARRACKS_MQTT_ENDPOINT="mqtt://mqtt.barracks.io"
+export BARRACKS_ENABLE_EXPERIMENTAL=1
 
 echo "-----------------------------------------"
 echo "-- Installing / upgrading barracks CLI..."

@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -ne 1 ]; then
-  echo "emulate-device1 expect one argument: <API_KEY>"
+  echo "emulate-display-device expect one argument: <API_KEY>"
   exit 1
 fi
 
@@ -17,10 +17,10 @@ echo "-- Barracsk SDK is up to date --"
 echo "--------------------------------"
 echo ""
 
-echo "Cleaning existing packages for device 1..."
-rm -rf device-1-packages/
-mkdir device-1-packages
+echo "Cleaning existing packages for sensor device..."
+rm -rf display-device-packages/
+mkdir display-device-packages
 
-echo "starting device 1..."
+echo "starting display device..."
 
-npm run start device-1 $1 "./device-1_customClientData.json"
+npm run start display-device $1 "./display-device_customClientData.json"

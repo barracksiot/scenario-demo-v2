@@ -1,6 +1,6 @@
 const speedSensor = (state) => {
   return new Promise((resolve, reject) => {
-    state.agvSpeed = {
+    state.avgSpeed = {
       lastHour: Math.random() * (75 - 20) + 20,
       lastTenMinutes: Math.random() * (80 - 10) + 10
     };

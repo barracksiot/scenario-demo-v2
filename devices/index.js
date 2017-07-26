@@ -2,18 +2,22 @@
 const fs = require('fs');
 const Barracks = require('barracks-sdk');
 
-// TODO Replace by the npm package when published
-const BarracksMessenger = require('./BarracksMessengerMock');
+const BarracksMessenger = require('barracks-messenger-sdk-betatest');
 
-const CHECK_INTERVAL = 3000;
+const CHECK_INTERVAL = 20000;
 
 const unitId = process.argv[2];
 const apiKey = process.argv[3];
 const customClientDataPath = process.argv[4];
 const packagesFolder = `${unitId}-packages/`;
 
-const barracks = new Barracks({ apiKey });
-const messenger = new BarracksMessenger();
+const barracks = new Barracks({ apiKey, allowSelfSigned:true });
+const messenger = new BarracksMessenger.BarracksMessenger({
+  unitId: unitId,
+  apiKey: apiKey,
+  baseUrl: 'https://app.barracks.io',
+  mqttEndpoint: 'mqtt://mqtt.barracks.io'
+});
 
 let installedPackages = [];
 let state = {};
@@ -137,17 +141,49 @@ function checkforUpdate() {
   }).then(response => {
     return handleBarracksResponse(response);
   }).then(() => {
-    console.log('a fini');
+    console.log('Device checked for an update');
   }).catch(err => {
     console.error(err);
   });
 }
 
 function messageReceived(message) {
-  console.log('Message received, updating device state..');
-  Object.assign(state, message);
+  try {
+    console.log('Message received, updating device state..');
+    let content = JSON.parse(JSON.parse(message.payload));
+    state = Object.assign({}, state, content);
+  } catch (err) {
+    console.error(err);
+  }
 }
+
+exports.messageReceived = messageReceived;
 
 checkforUpdate();
 setInterval(checkforUpdate, CHECK_INTERVAL);
-messenger.onMessage(messageReceived);
+
+const that = this;
+function listenMessages() {
+
+  messenger.connect({
+    onConnect: function() {
+      console.log('Connected to ' + messenger.options.mqttEndpoint);
+    },
+    onError: function(err) {
+      console.log('Error occurred : ' + err);
+    },
+    onClose: function() {
+      console.log('Connection closed');
+    },
+    onReconnect: function() {
+      console.log('Attempting to reconnect...');
+    }
+  });
+
+  messenger.subscribe(messenger.options.apiKey + '.' + messenger.options.unitId, function(messageReceived) {
+    that.messageReceived(messageReceived);
+    console.log('Received: ' + messageReceived.payload);
+  }, { qos: 1 });
+}
+
+listenMessages();
